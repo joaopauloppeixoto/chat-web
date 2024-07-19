@@ -1,8 +1,11 @@
-﻿namespace ChatWeb.Domain.AggregatesModel.AccountAggregate;
+﻿using ChatWeb.API.ViewModels;
+using ChatWeb.Domain.AggregatesModel.AccountAggregate;
 
-public interface IAccountRepository
+namespace ChatWeb.API.Interfaces;
+
+public interface IAccountService
 {
-    public Task RegisterAsync(Account account);
+    public Task RegisterAsync(NewAccountViewModel account);
     public Task UpdateAsync(Guid Id, Account account);
     public Task UpdateNameAsync(Guid Id, string name, string surname);
     public Task DisableAsync(Guid id);

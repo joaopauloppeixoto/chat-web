@@ -2,7 +2,7 @@
 
 public interface IMessageRepository
 {
-    public void Add(Message message);
-    public void Update(Guid Id, Message message);
-    public void Delete(Guid id);
+    public Task Add(Message message);
+    public Task Update(Guid Id, Message message);
+    public Task Delete(Guid id);
 }

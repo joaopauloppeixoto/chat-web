@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["ChatWebServer.csproj", "."]
-RUN dotnet restore "./ChatWebServer.csproj"
+COPY ["ChatWeb.API/ChatWeb.API.csproj", "ChatWeb.API/"]
+RUN dotnet restore "ChatWeb.API/ChatWeb.API.csproj"
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "ChatWebServer.csproj" -c Release -o /app/build
+WORKDIR "/src/ChatWeb.API"
+RUN dotnet build "ChatWeb.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ChatWebServer.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ChatWeb.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ChatWebServer.dll"]
+ENTRYPOINT ["dotnet", "ChatWeb.API.dll"]

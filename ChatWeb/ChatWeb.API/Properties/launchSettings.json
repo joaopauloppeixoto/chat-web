@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "ChatWebServer": {
+    "ChatWeb.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7183;http://localhost:5018"
+      "applicationUrl": "https://localhost:7159;http://localhost:5119"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -31,8 +31,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:57479",
-      "sslPort": 44319
+      "applicationUrl": "http://localhost:55242",
+      "sslPort": 44327
     }
   }
 }

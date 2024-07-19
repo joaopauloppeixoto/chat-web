@@ -1,8 +1,21 @@
-﻿namespace ChatWeb.Domain.AggregatesModel.MessengerAggregate;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ChatWeb.Domain.AggregatesModel.MessengerAggregate;
 
 public class Message
 {
-    //public Guid Id { get; set; }
-    //public Guid SenderId { get; set; }
-    //public Guid ChatId { get; set; }
+    [Key]
+    public Guid Id { get; set; }
+
+    [Required]
+    [ForeignKey("Account")]
+    public Guid SenderId { get; set; }
+
+    [Required]
+    [ForeignKey("Account")]
+    public Guid ReceiverId { get; set; }
+
+    [Required]
+    public string Content { get; set; }
 }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChatWeb.Common\ChatWeb.Common.csproj" />
     <ProjectReference Include="..\ChatWeb.Domain\ChatWeb.Domain.csproj" />
   </ItemGroup>
 

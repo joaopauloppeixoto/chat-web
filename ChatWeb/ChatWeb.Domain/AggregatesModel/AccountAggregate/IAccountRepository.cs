@@ -7,4 +7,6 @@ public interface IAccountRepository
     public Task UpdateNameAsync(Guid Id, string name, string surname);
     public Task DisableAsync(Guid id);
     public Task<Account> SearchByEmailAsync(string email);
+    public Task UpdateLastLoginAsync(string email);
+    public Task ValidateLoginAsync(string email, string password);
 }

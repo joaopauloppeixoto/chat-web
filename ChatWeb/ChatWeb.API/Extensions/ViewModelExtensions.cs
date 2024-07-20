@@ -16,4 +16,15 @@ public static class ViewModelExtensions
             PasswordHash = SHA512.Create().GenerateHash(account.Password)
         };
     }
+
+    public static AccountViewModel ToViewModel(this Account account)
+    {
+        return new AccountViewModel()
+        {
+            Name = account.Name,
+            Surname = account.Surname,
+            Email = account.Email,
+            CreatedAt = account.CreatedAt,
+        };
+    }
 }

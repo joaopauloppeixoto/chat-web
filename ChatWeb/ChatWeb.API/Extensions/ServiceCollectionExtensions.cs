@@ -9,6 +9,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddProjectServices(this IServiceCollection services)
     {
+        services.AddScoped<ITokenService, TokenService>();
+
         services.AddScoped<IAccountService, AccountService>();
 
         services.AddScoped<IAccountRepository, AccountRepository>();

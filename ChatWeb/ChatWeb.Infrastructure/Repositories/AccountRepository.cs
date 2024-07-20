@@ -1,5 +1,7 @@
 ﻿using ChatWeb.API.Contexts;
+using ChatWeb.Common.CustomExceptions;
 using ChatWeb.Domain.AggregatesModel.AccountAggregate;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatWeb.Infrastructure.Repositories;
 
@@ -22,12 +24,12 @@ public class AccountRepository : IAccountRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<Account> SearchByEmailAsync(string email)
+    public async Task<Account> SearchByEmailAsync(string email)
     {
-        throw new NotImplementedException();
+        return await _context.Accounts.SingleOrDefaultAsync(a => a.Email == email);
     }
 
-    public Task UpdateAsync(Guid Id, Account account)
+    public async Task UpdateAsync(Guid Id, Account account)
     {
         throw new NotImplementedException();
     }
@@ -35,5 +37,22 @@ public class AccountRepository : IAccountRepository
     public Task UpdateNameAsync(Guid Id, string name, string surname)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task UpdateLastLoginAsync(string email)
+    {
+        var account = await SearchByEmailAsync(email);
+
+        account.LastLogin = DateTime.UtcNow;
+
+        _context.SaveChanges();
+    }
+
+    public async Task ValidateLoginAsync(string email, string passwordHash)
+    {
+        if (!await _context.Accounts.AnyAsync(a => a.Email == email && a.PasswordHash == passwordHash))
+        {
+            throw new InvalidLoginOrPasswordException();
+        }
     }
 }

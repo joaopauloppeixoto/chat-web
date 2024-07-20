@@ -1,4 +1,5 @@
-﻿using ChatWeb.API.Interfaces;
+﻿using ChatWeb.API.Extensions;
+using ChatWeb.API.Interfaces;
 using ChatWeb.API.ViewModels;
 using ChatWeb.Domain.AggregatesModel.AccountAggregate;
 
@@ -32,8 +33,8 @@ public class AccountService : IAccountService
         throw new NotImplementedException();
     }
 
-    public Task RegisterAsync(NewAccountViewModel account)
+    public async Task RegisterAsync(NewAccountViewModel account)
     {
-        throw new NotImplementedException();
+        await _repository.RegisterAsync(account.ToDomainModel());
     }
 }

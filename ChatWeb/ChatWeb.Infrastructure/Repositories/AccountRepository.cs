@@ -1,17 +1,25 @@
-﻿using ChatWeb.Domain.AggregatesModel.AccountAggregate;
+﻿using ChatWeb.API.Contexts;
+using ChatWeb.Domain.AggregatesModel.AccountAggregate;
 
 namespace ChatWeb.Infrastructure.Repositories;
 
 public class AccountRepository : IAccountRepository
 {
+    public ChatWebContext _context { get; set; }
+    public AccountRepository(ChatWebContext context)
+    {
+        _context = context;
+    }
+
     public Task DisableAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public Task RegisterAsync(Account account)
+    public async Task RegisterAsync(Account account)
     {
-        throw new NotImplementedException();
+        await _context.Accounts.AddAsync(account);
+        await _context.SaveChangesAsync();
     }
 
     public Task<Account> SearchByEmailAsync(string email)

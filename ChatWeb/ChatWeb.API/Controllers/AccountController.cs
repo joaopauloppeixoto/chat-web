@@ -18,7 +18,6 @@ public class AccountController : ControllerBase
     [HttpPost]
     public async Task CreateAccountAsync([FromBody] NewAccountViewModel newAccount)
     {
-        var newAccountTest = newAccount.ToDomainModel();
         await _service.RegisterAsync(newAccount);
     }
 }

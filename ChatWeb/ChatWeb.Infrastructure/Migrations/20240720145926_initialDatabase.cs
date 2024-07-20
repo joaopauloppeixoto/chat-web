@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace ChatWeb.API.Migrations
+namespace ChatWeb.Infrastructure.Migrations
 {
     public partial class initialDatabase : Migration
     {
@@ -18,6 +18,7 @@ namespace ChatWeb.API.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     Email = table.Column<string>(type: "longtext", nullable: false),
+                    PasswordHash = table.Column<string>(type: "longtext", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Surname = table.Column<string>(type: "longtext", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)

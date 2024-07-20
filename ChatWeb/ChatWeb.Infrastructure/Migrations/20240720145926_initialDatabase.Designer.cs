@@ -3,16 +3,18 @@ using System;
 using ChatWeb.API.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ChatWeb.API.Migrations
+namespace ChatWeb.Infrastructure.Migrations
 {
     [DbContext(typeof(ChatWebContext))]
-    partial class ChatWebContextModelSnapshot : ModelSnapshot
+    [Migration("20240720145926_initialDatabase")]
+    partial class initialDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +35,10 @@ namespace ChatWeb.API.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("longtext");
 

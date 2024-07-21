@@ -1,9 +1,11 @@
-﻿namespace ChatWeb.Common.CustomExceptions;
+﻿using System.Net;
+
+namespace ChatWeb.Common.CustomExceptions;
 
 public class EntityNotFoundException : CustomException
 {
-    public EntityNotFoundException(string message) : base(message)
+    public EntityNotFoundException(string message) : base(message, statusCode: HttpStatusCode.NotFound)
     {
-        
+
     }
 }

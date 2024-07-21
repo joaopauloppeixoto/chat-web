@@ -19,25 +19,26 @@ public class CustomExceptionHandler
         {
             await _next(context);
         }
+        catch (CustomException error)
+        {
+            var response = context.Response;
+
+            response.ContentType = "application/json";
+            response.StatusCode = (int) error.StatusCode;
+
+            var result = JsonSerializer.Serialize(new
+            {
+                message = error?.Message,
+                innerException = error?.InnerException?.Message
+            });
+
+            await response.WriteAsync(result);
+        }
         catch (Exception error)
         {
             var response = context.Response;
             response.ContentType = "application/json";
-
-            switch (error)
-            {
-                case InvalidTokenException:
-                    response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    break;
-
-                case CustomException:
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    break;
-
-                default:
-                    response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-            }
+            response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             var result = JsonSerializer.Serialize(new
             {

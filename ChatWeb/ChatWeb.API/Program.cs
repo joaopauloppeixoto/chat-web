@@ -1,5 +1,6 @@
 using ChatWeb.API.Contexts;
 using ChatWeb.API.Extensions;
+using ChatWeb.API.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,6 @@ builder.AddAuthenticationConfig();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -26,6 +26,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<CustomExceptionHandler>();
 
 app.MapControllers();
 

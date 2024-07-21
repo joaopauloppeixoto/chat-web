@@ -29,12 +29,12 @@ public class AccountRepository : IAccountRepository
         return await _context.Accounts.SingleOrDefaultAsync(a => a.Email == email);
     }
 
-    public async Task UpdateAsync(Guid Id, Account account)
+    public async Task UpdateAsync(Guid id, Account account)
     {
         throw new NotImplementedException();
     }
 
-    public Task UpdateNameAsync(Guid Id, string name, string surname)
+    public Task UpdateNameAsync(Guid id, string name, string surname)
     {
         throw new NotImplementedException();
     }

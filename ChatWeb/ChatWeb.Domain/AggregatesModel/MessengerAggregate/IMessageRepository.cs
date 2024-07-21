@@ -2,7 +2,7 @@
 
 public interface IMessageRepository
 {
-    public Task Add(Message message);
-    public Task Update(Guid Id, Message message);
-    public Task Delete(Guid id);
+    public Task AddAsync(Message message);
+    public Task UpdateAsync(Guid id, Message message);
+    public Task DisableAsync(Guid id);
 }

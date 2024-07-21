@@ -32,7 +32,7 @@ namespace ChatWeb.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("LastLogin")
+                    b.Property<DateTime>("LastSeenAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
@@ -61,6 +61,15 @@ namespace ChatWeb.Infrastructure.Migrations
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid?>("OriginalMessageId")
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("ReceiverId")
                         .HasColumnType("char(36)");

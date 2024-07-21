@@ -6,7 +6,7 @@ namespace ChatWeb.Domain.AggregatesModel.MessengerAggregate;
 public class Message
 {
     [Key]
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
     [ForeignKey("Account")]
@@ -18,4 +18,12 @@ public class Message
 
     [Required]
     public string Content { get; set; }
+
+    [Required]
+    public DateTime CreationDate { get; set; } = DateTime.Now;
+
+    [ForeignKey("Message")]
+    public Guid? OriginalMessageId { get; set; }
+
+    public bool Enable { get; set; } = true;
 }

@@ -21,7 +21,8 @@ namespace ChatWeb.Infrastructure.Migrations
                     PasswordHash = table.Column<string>(type: "longtext", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
                     Surname = table.Column<string>(type: "longtext", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    LastSeenAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -36,7 +37,10 @@ namespace ChatWeb.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     SenderId = table.Column<Guid>(type: "char(36)", nullable: false),
                     ReceiverId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Content = table.Column<string>(type: "longtext", nullable: false)
+                    Content = table.Column<string>(type: "longtext", nullable: false),
+                    CreationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    OriginalMessageId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    Enable = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {

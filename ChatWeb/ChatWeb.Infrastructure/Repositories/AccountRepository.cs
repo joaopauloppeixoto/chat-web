@@ -26,7 +26,14 @@ public class AccountRepository : IAccountRepository
 
     public async Task<Account> SearchByEmailAsync(string email)
     {
-        return await _context.Accounts.SingleOrDefaultAsync(a => a.Email == email);
+        var infos = await _context.Accounts.SingleOrDefaultAsync(a => a.Email == email);
+        
+        if (infos == null)
+        {
+            throw new InvalidAccountException();
+        }
+
+        return infos;
     }
 
     public async Task UpdateAsync(Guid id, Account account)
@@ -43,7 +50,7 @@ public class AccountRepository : IAccountRepository
     {
         var account = await SearchByEmailAsync(email);
 
-        account.LastLogin = DateTime.UtcNow;
+        account.LastSeenAt = DateTime.UtcNow;
 
         _context.SaveChanges();
     }

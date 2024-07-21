@@ -16,11 +16,20 @@ public class AccountController : ControllerBase
         _service = service;
     }
 
-    [HttpGet]
+    [HttpGet("info")]
     [Authorize]
     public async Task<ActionResult> GetAccountInfoAsync()
     {
         var email = User.GetUserEmail();
+        var account = await _service.GetAccountInfoAsync(email);
+
+        return Ok(account);
+    }
+
+    [HttpGet("infoByEmail")]
+    [Authorize]
+    public async Task<ActionResult> GetAccountInfoByEmailAsync([FromHeader] string email)
+    {
         var account = await _service.GetAccountInfoAsync(email);
 
         return Ok(account);

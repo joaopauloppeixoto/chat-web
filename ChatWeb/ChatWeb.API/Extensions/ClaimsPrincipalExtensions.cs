@@ -17,7 +17,7 @@ public static class ClaimsPrincipalExtensions
         return email;
     }
 
-    public static string GetUserGuid(this ClaimsPrincipal user)
+    public static Guid GetUserGuid(this ClaimsPrincipal user)
     {
         var guid = user.Claims.SingleOrDefault(w => w.Type == "Guid")?.Value;
 
@@ -26,6 +26,6 @@ public static class ClaimsPrincipalExtensions
             throw new InvalidTokenException();
         }
 
-        return guid;
+        return Guid.Parse(guid);
     }
 }

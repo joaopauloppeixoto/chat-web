@@ -2,7 +2,7 @@
 
 public class InvalidLoginOrPasswordException : CustomException
 {
-    public InvalidLoginOrPasswordException() : base("Invalid login or password.", null)
+    public InvalidLoginOrPasswordException() : base("Invalid login or password.")
     {
 
     }

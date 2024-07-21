@@ -20,7 +20,7 @@ public class MessageController : ControllerBase
         TokenService = tokenService;
     }
 
-    [HttpGet]
+    [HttpGet("chats")]
     public async Task<ActionResult> GetChatListAsync()
     {
         var userId = User.GetUserGuid();

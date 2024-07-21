@@ -5,7 +5,7 @@ namespace ChatWeb.API.Interfaces;
 
 public interface IMessageService
 {
-    public Task<IList<ChatViewModel>> GetChatListAsync(Guid userId);
+    public Task<IList<GroupViewModel>> GetChatListAsync(Guid userId);
     public Task SendAsync(NewMessageViewModel message, Guid guid);
     public Task EditAsync(Guid id, Message message);
     public Task DisableAsync(Guid id);

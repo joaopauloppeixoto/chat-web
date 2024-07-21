@@ -24,10 +24,11 @@ public class MessageService : IMessageService
         throw new NotImplementedException();
     }
 
-    public async Task<IList<ChatViewModel>> GetChatListAsync(Guid userId)
+    public async Task<IList<GroupViewModel>> GetChatListAsync(Guid userId)
     {
-        throw new NotImplementedException();
-        //return await _repository.GetChatListAsync(userId);
+        return (await _repository.GetChatListAsync(userId))
+            .Select(g => g.ToViewModel())
+            .ToList();
     }
 
     public async Task SendAsync(NewMessageViewModel message, Guid senderId)

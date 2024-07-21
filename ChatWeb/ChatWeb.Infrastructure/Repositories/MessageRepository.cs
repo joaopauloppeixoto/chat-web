@@ -43,14 +43,13 @@ public class MessageRepository : IMessageRepository
         return messages;
     }
 
-    public async Task<IList<Account>> GetChatListAsync(Guid userId)
+    public async Task<IList<Group>> GetChatListAsync(Guid userId)
     {
-        throw new NotImplementedException();
-        //var chats = await _context.Messages
-        //    .Where(m => m.Enable && (m.SenderId == userId || m.ReceiverId == userId))
-        //    .SelectMany(m => new List<Guid>(){ m.SenderId, m.ReceiverId })
-        //    .Distinct()
-        //    .ToListAsync();
+        var groups = await _context.Groups
+            .Where(g => g.Participants.Select(p => p.AccountId).Contains(userId))
+            .ToListAsync();
+
+        return groups;
     }
 
     public Task<Message> GetLastMessageAsync(Guid userId, Guid targetId)

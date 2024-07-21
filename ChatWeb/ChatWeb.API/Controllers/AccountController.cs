@@ -1,8 +1,8 @@
-﻿using ChatWeb.API.Interfaces;
+﻿using ChatWeb.API.Extensions;
+using ChatWeb.API.Interfaces;
 using ChatWeb.API.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace ChatWeb.API.Controllers;
 
@@ -20,14 +20,8 @@ public class AccountController : ControllerBase
     [Authorize]
     public async Task<ActionResult> GetAccountInfoAsync()
     {
-        var userEmail = User.Claims.SingleOrDefault(w => w.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        if (userEmail == null)
-        {
-            return BadRequest(new { Message = "Invalid Email."});
-        }
-
-        var account = await _service.GetAccountInfoAsync(userEmail);
+        var email = User.GetUserEmail();
+        var account = await _service.GetAccountInfoAsync(email);
 
         return Ok(account);
     }

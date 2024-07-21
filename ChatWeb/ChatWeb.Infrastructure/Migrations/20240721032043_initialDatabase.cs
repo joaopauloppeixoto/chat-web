@@ -31,12 +31,28 @@ namespace ChatWeb.Infrastructure.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Groups",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    IsOneOnOne = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: true),
+                    Description = table.Column<string>(type: "longtext", nullable: true),
+                    ImageUrl = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Groups", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     SenderId = table.Column<Guid>(type: "char(36)", nullable: false),
-                    ReceiverId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    GroupId = table.Column<Guid>(type: "char(36)", nullable: false),
                     Content = table.Column<string>(type: "longtext", nullable: false),
                     CreationDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     OriginalMessageId = table.Column<Guid>(type: "char(36)", nullable: true),
@@ -47,6 +63,26 @@ namespace ChatWeb.Infrastructure.Migrations
                     table.PrimaryKey("PK_Messages", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "GroupParticipants",
+                columns: table => new
+                {
+                    GroupId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    AccountId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    AgreedToJoin = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupParticipants", x => new { x.GroupId, x.AccountId });
+                    table.ForeignKey(
+                        name: "FK_GroupParticipants_Groups_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Groups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -55,7 +91,13 @@ namespace ChatWeb.Infrastructure.Migrations
                 name: "Accounts");
 
             migrationBuilder.DropTable(
+                name: "GroupParticipants");
+
+            migrationBuilder.DropTable(
                 name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "Groups");
         }
     }
 }

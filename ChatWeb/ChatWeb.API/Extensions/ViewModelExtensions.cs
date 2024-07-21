@@ -35,8 +35,8 @@ public static class ViewModelExtensions
         return new Message()
         {
             Content = message.Content,
-            ReceiverId = message.ReceiverId,
-            SenderId = senderId
+            SenderId = senderId,
+            GroupId = message.GroupId,
         };
     }
 
@@ -45,7 +45,16 @@ public static class ViewModelExtensions
         return new MessageViewModel()
         {
             Content = message.Content,
-            SentDate = message.CreationDate
+            SentDate = message.CreationDate,
+            SenderId = message.SenderId
+        };
+    }
+
+    public static GroupViewModel ToViewModel(this Group group)
+    {
+        return new GroupViewModel()
+        {
+            Id = group.Id,
         };
     }
 }

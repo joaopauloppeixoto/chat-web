@@ -2,6 +2,7 @@
 using ChatWeb.API.Interfaces;
 using ChatWeb.API.ViewModels;
 using ChatWeb.Domain.AggregatesModel.MessengerAggregate;
+using System.Text.RegularExpressions;
 
 namespace ChatWeb.API.Services;
 
@@ -23,9 +24,10 @@ public class MessageService : IMessageService
         throw new NotImplementedException();
     }
 
-    public Task<IList<ChatViewModel>> GetChatListAsync(string userEmail)
+    public async Task<IList<ChatViewModel>> GetChatListAsync(Guid userId)
     {
         throw new NotImplementedException();
+        //return await _repository.GetChatListAsync(userId);
     }
 
     public async Task SendAsync(NewMessageViewModel message, Guid senderId)
@@ -35,10 +37,17 @@ public class MessageService : IMessageService
         );
     }
 
-    public async Task<IList<MessageViewModel>> GetMessages(Guid userId, Guid targetId)
+    public async Task<IList<MessageViewModel>> GetMessages(Guid groupId)
     {
-        return (await _repository.GetMessages(userId, targetId))
+        return (await _repository.GetMessages(groupId))
             .Select(m => m.ToViewModel())
             .ToList();
+    }
+
+    public async Task<GroupViewModel> InitiateChatAsync(Guid userId, Guid targetId)
+    {
+        var group = await _repository.InitiateChatAsync(userId, targetId);
+
+        return group.ToViewModel();
     }
 }

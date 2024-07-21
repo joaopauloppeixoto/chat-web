@@ -2,6 +2,6 @@
 
 public class NewMessageViewModel
 {
-    public Guid ReceiverId { get; set; }
+    public Guid GroupId { get; set; }
     public string Content { get; set; }
 }

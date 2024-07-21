@@ -13,8 +13,8 @@ public class Message
     public Guid SenderId { get; set; }
 
     [Required]
-    [ForeignKey("Account")]
-    public Guid ReceiverId { get; set; }
+    [ForeignKey("Group")]
+    public Guid GroupId { get; set; }
 
     [Required]
     public string Content { get; set; }

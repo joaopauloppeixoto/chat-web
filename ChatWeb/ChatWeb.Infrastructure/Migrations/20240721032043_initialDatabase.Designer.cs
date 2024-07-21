@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ChatWeb.Infrastructure.Migrations
 {
     [DbContext(typeof(ChatWebContext))]
-    [Migration("20240721011540_initialDatabase")]
+    [Migration("20240721032043_initialDatabase")]
     partial class initialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,45 @@ namespace ChatWeb.Infrastructure.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("ChatWeb.Domain.AggregatesModel.MessengerAggregate.Group", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsOneOnOne")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("ChatWeb.Domain.AggregatesModel.MessengerAggregate.GroupParticipant", b =>
+                {
+                    b.Property<Guid>("GroupId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("AccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("AgreedToJoin")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("GroupId", "AccountId");
+
+                    b.ToTable("GroupParticipants");
+                });
+
             modelBuilder.Entity("ChatWeb.Domain.AggregatesModel.MessengerAggregate.Message", b =>
                 {
                     b.Property<Guid>("Id")
@@ -70,10 +109,10 @@ namespace ChatWeb.Infrastructure.Migrations
                     b.Property<bool>("Enable")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<Guid?>("OriginalMessageId")
+                    b.Property<Guid>("GroupId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ReceiverId")
+                    b.Property<Guid?>("OriginalMessageId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("SenderId")
@@ -82,6 +121,20 @@ namespace ChatWeb.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("ChatWeb.Domain.AggregatesModel.MessengerAggregate.GroupParticipant", b =>
+                {
+                    b.HasOne("ChatWeb.Domain.AggregatesModel.MessengerAggregate.Group", null)
+                        .WithMany("Participants")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ChatWeb.Domain.AggregatesModel.MessengerAggregate.Group", b =>
+                {
+                    b.Navigation("Participants");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,18 +23,16 @@ public class MessageController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetChatListAsync()
     {
-        var email = User.GetUserEmail();
-        var account = await _service.GetChatListAsync(email);
+        var userId = User.GetUserGuid();
+        var account = await _service.GetChatListAsync(userId);
 
         return Ok(account);
     }
 
-    [HttpGet("{targetId}")]
-    public async Task<ActionResult> GetChatAsync([FromRoute] Guid targetId)
+    [HttpGet("{groupId}")]
+    public async Task<ActionResult> GetChatAsync([FromRoute] Guid groupId)
     {
-        var userId = User.GetUserGuid();
-
-        return Ok(await _service.GetMessages(userId, targetId));
+        return Ok(await _service.GetMessages(groupId));
     }
 
     [HttpPost]
@@ -45,5 +43,14 @@ public class MessageController : ControllerBase
         await _service.SendAsync(message, guid);
 
         return StatusCode(201);
+    }
+
+    [HttpPost("initiate/{targetId}")]
+    public async Task<ActionResult> InitiateChatAsync(Guid targetId)
+    {
+        var userId = User.GetUserGuid();
+        var group = await _service.InitiateChatAsync(userId, targetId);
+
+        return StatusCode(201, group);
     }
 }

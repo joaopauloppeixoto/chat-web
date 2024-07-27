@@ -8,6 +8,7 @@ var connectionString = Environment.GetEnvironmentVariable("ConnectionString") ??
 builder.Services.AddDbContext<ChatWebContext>(options => options.UseMySQL(connectionString));
 builder.Services.AddProjectServices();
 builder.Services.AddControllers();
+builder.Services.RegisterCors();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.AddSwaggerGenWithAuthentication();
@@ -26,6 +27,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCorsPolicy();
 
 app.UseMiddleware<CustomExceptionHandler>();
 

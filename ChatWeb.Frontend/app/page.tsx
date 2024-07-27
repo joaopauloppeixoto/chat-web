@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import {
   ResizableHandle,
@@ -17,9 +17,29 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useEffect } from "react";
+import api from "@/lib/axios";
+import { getServerSession } from "next-auth/next"
+import { cookies } from "next/headers";
+import https from 'https';
+import axios from "@/lib/axios";
+import ThemeButton from "@/components/theme-button";
 
-export default function Home() {
-  const { setTheme } = useTheme();
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
+
+export default async function Home() {
+  const session = await getServerSession();
+  const token = await cookies().get('token')?.value;
+
+  const result = (await axios.get(process.env.API_URL + '/account/info', {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })).data;
+
+  console.log('session', session);
 
   return (
     <main className="flex h-[calc(100vh-56px)] flex-col items-center justify-between mx-7 my-7 bg-background rounded-lg shadow border">
@@ -27,7 +47,7 @@ export default function Home() {
         direction="horizontal"
         className="h-[calc(100vh-56px)]"
       >
-        <ResizablePanel className="min-w-80 max-w-96 flex flex-col gap-4">
+        <ResizablePanel defaultSize={80} className="min-w-80 max-w-96 flex flex-col gap-4">
           <Tabs defaultValue="chats">
             <TabsList className="flex flex-row justify-around mx-2 mt-2">
               <TabsTrigger value="chats">Chats</TabsTrigger>
@@ -78,26 +98,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="my-auto">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="icon">
-                        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                        <span className="sr-only">Toggle theme</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setTheme("light")}>
-                        Light
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setTheme("dark")}>
-                        Dark
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setTheme("system")}>
-                        System
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <ThemeButton />
                 </div>
               </div>
               <Separator />
@@ -111,7 +112,11 @@ export default function Home() {
                 </ScrollArea>
               </div>
               <Separator />
-              <div className="flex flex-row gap-1">
+              <div className="flex flex-row gap-2">
+                <Avatar className="w-10 h-10 m-auto">
+                  <AvatarImage src={`${session?.user?.image}`} />
+                  <AvatarFallback>{session?.user?.name?.charAt(0).toUpperCase()}</AvatarFallback>
+                </Avatar>
                 <Textarea placeholder="Your message here" className="resize-none" />
                 <Button size="sm" className="w-10 h-10 m-auto"><Send className="w-4 h-4" /></Button>
               </div>

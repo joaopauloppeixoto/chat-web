@@ -36,7 +36,7 @@ export default async function Home() {
             <ProfileInfo />
           </div>
         </Tabs>
-        <Separator orientation="vertical" />
+        <Separator orientation="vertical" className="light:bg-gray-300 dark:bg-gray-900" />
         <Chat />
       </div>
     </main>

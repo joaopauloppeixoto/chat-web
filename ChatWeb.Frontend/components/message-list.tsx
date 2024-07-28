@@ -27,15 +27,19 @@ export default function MessageList() {
       }).then((result) => {
         setMessageList(result.data);
       });
+    } else {
+      setMessageList([]);
     }
   }, [selectedChat]);
 
   return (
-    <ScrollArea className="h-full w-full px-2 pb-2">
+    <ScrollArea className="h-full w-full px-2 pb-2 my-7">
       <div className="w-full max-w-7xl mx-auto flex flex-col">
-        {messageList?.map(m => {
-          return <Message isFromUser={m.senderId == user?.id}>{m.content}</Message>
-        })}
+        <div className="mx-7">
+          {messageList?.map(m => {
+            return <Message isFromUser={m.senderId == user?.id}>{m.content}</Message>
+          })}
+        </div>
       </div>
     </ScrollArea>
   );

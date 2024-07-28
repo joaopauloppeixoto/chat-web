@@ -16,12 +16,13 @@ type AuthContextData = {
 }
 
 type User = {
-  id: string,
-  email: string,
-  name: string,
-  surname: string,
-  createdAt: Date,
-  lastSeenAt: Date,
+  id: string;
+  email: string;
+  name: string;
+  surname: string;
+  createdAt: Date;
+  lastSeenAt: Date;
+  image?: string;
 }
 
 export const AuthContextProvider = ({ children, token, baseUrl }: AuthContextProps) => {

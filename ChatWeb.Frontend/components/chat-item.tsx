@@ -23,15 +23,19 @@ type ChatItemProps = {
 }
 
 export default function ChatItem({ chat }: ChatItemProps) {
-  const { setSelectedChat } = useMessages();
+  const { selectedChat, setSelectedChat } = useMessages();
+  const isSelected = selectedChat?.id == chat?.id;
 
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <Card className="shadow px-5 py-2 rounded flex flex-row mb-1 gap-2">
+        <Card
+          className={`shadow px-5 py-2 rounded flex flex-row mb-1 gap-2 cursor-pointer mx-2 transition-all ${isSelected ? "border-l-primary rounded-none border-l-8 bg-secondary" : ""}`}
+          onClick={() => setSelectedChat(chat)}
+        >
           <Avatar className="w-12 h-12">
             <AvatarImage src={`${chat.image}`} />
-            <AvatarFallback>{chat.name?.charAt(0)}</AvatarFallback>
+            <AvatarFallback className={isSelected ? "bg-primary text-primary-foreground" : ""}>{chat.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="">
             <div className="text-sm">{chat.name}</div>

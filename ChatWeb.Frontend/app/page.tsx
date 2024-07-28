@@ -6,7 +6,6 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ChatItem from "@/components/chat-item";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -14,10 +13,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getServerSession } from "next-auth/next"
-import { cookies } from "next/headers";
 import https from 'https';
-import axios from "@/lib/axios";
 import ThemeButton from "@/components/theme-button";
+import ChatList from "@/components/chat-list";
 
 const agent = new https.Agent({
   rejectUnauthorized: false
@@ -25,15 +23,6 @@ const agent = new https.Agent({
 
 export default async function Home() {
   const session = await getServerSession();
-  const token = await cookies().get('token')?.value;
-
-  const result = (await axios.get(process.env.API_URL + '/account/info', {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  })).data;
-
-  console.log('session', session);
 
   return (
     <main className="flex h-[calc(100vh-56px)] flex-col items-center justify-between mx-7 my-7 bg-background rounded-lg shadow border">
@@ -49,27 +38,10 @@ export default async function Home() {
             </TabsList>
             <ScrollArea className="h-[100%-8px] w-full px-2 pb-2">
               <TabsContent value="chats">
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
-                <ChatItem />
+                <ChatList />
               </TabsContent>
               <TabsContent value="unread">
-                <ChatItem />
-                <ChatItem />
+                <ChatList />
               </TabsContent>
             </ScrollArea>
           </Tabs>

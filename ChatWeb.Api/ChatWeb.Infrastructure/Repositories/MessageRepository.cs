@@ -46,6 +46,8 @@ public class MessageRepository : IMessageRepository
     public async Task<IList<Group>> GetChatListAsync(Guid userId)
     {
         var groups = await _context.Groups
+            .Include(g => g.Participants)
+            .ThenInclude(p => p.Account)
             .Where(g => g.Participants.Select(p => p.AccountId).Contains(userId))
             .ToListAsync();
 

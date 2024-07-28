@@ -1,22 +1,36 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Chat } from "./chat-list";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "./ui/avatar";
 import { Card } from "./ui/card";
-import { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "./ui/context-menu";
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuShortcut,
+  ContextMenuTrigger
+} from "./ui/context-menu";
 
-export default function ChatItem() {
+type ChatItemProps = {
+  chat: Chat;
+}
 
+export default function ChatItem({ chat }: ChatItemProps) {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
         <Card className="shadow px-5 py-2 rounded flex flex-row mb-1 gap-2">
           <Avatar className="w-12 h-12">
-            <AvatarImage src="https://github.com/joaopauloppeixoto.png" />
-            <AvatarFallback>JP</AvatarFallback>
+            <AvatarImage src={`${chat.image}`} />
+            <AvatarFallback>{chat.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="">
-            <div className="text-sm">João Paulo</div>
-            <div className="text-xs">Last seen 1 hour ago</div>
+            <div className="text-sm">{chat.name}</div>
+            <div className="text-xs">{chat.description}</div>
           </div>
         </Card>
       </ContextMenuTrigger>
@@ -25,15 +39,10 @@ export default function ChatItem() {
           Pin
           <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
         </ContextMenuCheckboxItem>
-        <ContextMenuSub>
-          <ContextMenuSubTrigger inset>Theme</ContextMenuSubTrigger>
-          <ContextMenuSubContent className="w-48">
-            <ContextMenuRadioItem value="colm">Dark</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="colm">Light</ContextMenuRadioItem>
-            <ContextMenuSeparator />
-            <ContextMenuRadioItem value="colm">System</ContextMenuRadioItem>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
+        <ContextMenuCheckboxItem>
+          Mutted
+          <ContextMenuShortcut>⌘⇧M</ContextMenuShortcut>
+        </ContextMenuCheckboxItem>
       </ContextMenuContent>
     </ContextMenu>
   );

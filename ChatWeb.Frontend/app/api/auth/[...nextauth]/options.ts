@@ -31,6 +31,8 @@ export const options: NextAuthOptions = {
         )
 
         const token = (await res).data.token;
+        api.defaults.headers.common['Authorization'] = token;
+
         const result = (await axios.get(process.env.API_URL + '/account/info', {
           headers: {
             Authorization: `Bearer ${token}`
@@ -42,8 +44,6 @@ export const options: NextAuthOptions = {
           name: `${result.name} ${result.surname}`,
           email: result.email
         }
-
-        console.log('user', user)
 
         cookies().set('token', token);
 

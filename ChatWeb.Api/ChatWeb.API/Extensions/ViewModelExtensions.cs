@@ -50,11 +50,29 @@ public static class ViewModelExtensions
         };
     }
 
-    public static GroupViewModel ToViewModel(this Group group)
+    public static GroupViewModel ToViewModel(this Group group, Guid? userId = null)
     {
-        return new GroupViewModel()
+        if (!group.IsOneOnOne)
         {
-            Id = group.Id,
-        };
+            return new GroupViewModel()
+            {
+                Id = group.Id,
+                Name = group.Name,
+                Description = group.Description,
+                Image = ""
+            };
+        }
+        else
+        {
+            var otherUser = group.Participants.FirstOrDefault(p => p.AccountId != userId);
+
+            return new GroupViewModel()
+            {
+                Id = group.Id,
+                Name = otherUser.Account?.Name,
+                Description = otherUser.Account?.Email,
+                Image = ""
+            };
+        }
     }
 }

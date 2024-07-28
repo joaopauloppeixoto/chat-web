@@ -27,7 +27,7 @@ public class MessageService : IMessageService
     public async Task<IList<GroupViewModel>> GetChatListAsync(Guid userId)
     {
         return (await _repository.GetChatListAsync(userId))
-            .Select(g => g.ToViewModel())
+            .Select(g => g.ToViewModel(userId))
             .ToList();
     }
 
@@ -49,6 +49,6 @@ public class MessageService : IMessageService
     {
         var group = await _repository.InitiateChatAsync(userId, targetId);
 
-        return group.ToViewModel();
+        return group.ToViewModel(userId);
     }
 }

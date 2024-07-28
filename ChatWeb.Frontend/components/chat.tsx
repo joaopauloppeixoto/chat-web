@@ -4,16 +4,12 @@ import { Send } from "lucide-react";
 import CloseChatButton from "./close-chat-button";
 import MessageList from "./message-list";
 import SelectedChatInfo from "./selected-chat-infos";
-import ThemeButton from "./theme-button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Textarea } from "./ui/textarea";
-import { useAuth } from "@/contexts/auth-context";
 import { useMessages } from "@/contexts/message-context";
 
 export default function Chat() {
-  const { user } = useAuth();
   const { selectedChat } = useMessages();
 
   return (
@@ -22,7 +18,6 @@ export default function Chat() {
         <SelectedChatInfo
           buttons={
             <>
-              <ThemeButton />
               <CloseChatButton />
             </>
           }

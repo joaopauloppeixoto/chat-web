@@ -71,7 +71,8 @@ public static class ViewModelExtensions
                 Id = group.Id,
                 Name = otherUser.Account?.Name,
                 Description = otherUser.Account?.Email,
-                Image = ""
+                Image = "",
+                ChatWithId = otherUser.Account?.Id
             };
         }
     }

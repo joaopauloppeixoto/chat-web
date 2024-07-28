@@ -1,5 +1,6 @@
 "use client";
 
+import { useMessages } from "@/contexts/message-context";
 import { Chat } from "./chat-list";
 import {
   Avatar,
@@ -11,15 +12,19 @@ import {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
+  ContextMenuItem,
   ContextMenuShortcut,
   ContextMenuTrigger
 } from "./ui/context-menu";
+import { Separator } from "./ui/separator";
 
 type ChatItemProps = {
   chat: Chat;
 }
 
 export default function ChatItem({ chat }: ChatItemProps) {
+  const { setSelectedChat } = useMessages();
+
   return (
     <ContextMenu>
       <ContextMenuTrigger>
@@ -35,6 +40,10 @@ export default function ChatItem({ chat }: ChatItemProps) {
         </Card>
       </ContextMenuTrigger>
       <ContextMenuContent className="w-64">
+        <ContextMenuItem inset onClick={() => setSelectedChat(chat)}>
+          Open
+        </ContextMenuItem>
+        <Separator />
         <ContextMenuCheckboxItem checked>
           Pin
           <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>

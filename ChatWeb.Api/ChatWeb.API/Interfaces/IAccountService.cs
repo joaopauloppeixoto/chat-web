@@ -5,7 +5,7 @@ namespace ChatWeb.API.Interfaces;
 
 public interface IAccountService
 {
-    public Task<AccountViewModel> GetAccountInfoAsync(string email);
+    public Task<AccountViewModel> GetAccountInfoAsync(string? email = null, Guid? guid = null);
     public Task RegisterAsync(NewAccountViewModel account);
     public Task UpdateAsync(Guid Id, Account account);
     public Task UpdateNameAsync(Guid Id, string name, string surname);

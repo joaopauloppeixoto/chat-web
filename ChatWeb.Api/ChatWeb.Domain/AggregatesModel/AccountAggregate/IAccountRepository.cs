@@ -2,6 +2,7 @@
 
 public interface IAccountRepository
 {
+    public Task<Account?> GetAsync(Guid? guid);
     public Task RegisterAsync(Account account);
     public Task UpdateAsync(Guid id, Account account);
     public Task UpdateNameAsync(Guid id, string name, string surname);

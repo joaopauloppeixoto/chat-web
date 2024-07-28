@@ -1,13 +1,7 @@
 'use client';
 
-import { User } from "next-auth";
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react";
-import axios, { AxiosInstance } from 'axios';
-import https from 'https';
-
-const agent = new https.Agent({
-  rejectUnauthorized: false
-});
+import api from "@/lib/axios";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 type AuthContextProps = {
   children: ReactNode;
@@ -16,16 +10,40 @@ type AuthContextProps = {
 }
 
 type AuthContextData = {
-  user: User;
+  user: User | undefined;
   token: string;
   apiUrl: string;
 }
 
+type User = {
+  id: string,
+  email: string,
+  name: string,
+  surname: string,
+  createdAt: Date,
+  lastSeenAt: Date,
+}
+
 export const AuthContextProvider = ({ children, token, baseUrl }: AuthContextProps) => {
+  const [user, setUser] = useState<User | undefined>();
+
+  useEffect(() => {
+    if (!user) {
+      api.get(`${baseUrl}/account/info`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((result) => {
+        setUser(result.data);
+      });
+    }
+  }, []);
+
   return (
     <AuthContext.Provider value={{
       token: token,
-      apiUrl: baseUrl
+      apiUrl: baseUrl,
+      user: user
     } as AuthContextData}>
       {children}
     </AuthContext.Provider>

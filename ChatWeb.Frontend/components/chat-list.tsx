@@ -11,6 +11,7 @@ export type Chat = {
   name?: string;
   description?: string;
   image?: string;
+  chatWithId?: string;
 }
 
 export default function ChatList() {

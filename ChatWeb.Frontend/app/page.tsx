@@ -16,6 +16,8 @@ import { getServerSession } from "next-auth/next"
 import https from 'https';
 import ThemeButton from "@/components/theme-button";
 import ChatList from "@/components/chat-list";
+import MessageList from "@/components/message-list";
+import SelectedChatInfo from "@/components/selected-chat-infos";
 
 const agent = new https.Agent({
   rejectUnauthorized: false
@@ -51,31 +53,14 @@ export default async function Home() {
           <div className="flex flex-row justify-between h-full">
             <div className="flex flex-col gap-3 w-full h-full">
               <div className="flex flex-row justify-between">
-                <div className="flex flex-row gap-2">
-                  <Avatar className="w-12 h-12 my-auto">
-                    <AvatarImage src="https://github.com/joaopauloppeixoto.png" />
-                    <AvatarFallback>JP</AvatarFallback>
-                  </Avatar>
-                  <Separator orientation="vertical" />
-                  <div className="">
-                    <div className="font-semibold">João Paulo</div>
-                    <div className="text-xs">Last seen 1 hour ago</div>
-                    <div className="text-xs">Typing...</div>
-                  </div>
-                </div>
+                <SelectedChatInfo />
                 <div className="my-auto">
                   <ThemeButton />
                 </div>
               </div>
               <Separator />
               <div className="flex-1 h-56">
-                <ScrollArea className="h-full w-full px-2 pb-2">
-                  <div className="w-full max-w-7xl mx-auto flex flex-col">
-                    <div className="flex w-max max-w-[75%] flex-col gap-2 rounded px-3 py-2 text-sm bg-muted">Hello!</div>
-                    <div className="flex w-max max-w-[75%] flex-col gap-2 rounded px-3 py-2 text-sm ml-auto bg-primary text-primary-foreground">Hello, how are you?</div>
-                    <div className="flex w-max max-w-[75%] flex-col gap-2 rounded px-3 py-2 text-sm bg-muted">I'm fine, thanks for asking!</div>
-                  </div>
-                </ScrollArea>
+                <MessageList />
               </div>
               <Separator />
               <div className="flex flex-row gap-2">

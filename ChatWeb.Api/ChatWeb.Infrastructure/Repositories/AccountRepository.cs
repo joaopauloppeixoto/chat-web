@@ -13,6 +13,11 @@ public class AccountRepository : IAccountRepository
         _context = context;
     }
 
+    public async Task<Account?> GetAsync(Guid? guid)
+    {
+        return await _context.Accounts.FirstOrDefaultAsync(a => a.Id == guid);
+    }
+
     public Task DisableAsync(Guid id)
     {
         throw new NotImplementedException();

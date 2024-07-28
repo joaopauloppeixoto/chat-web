@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/contexts/auth-context";
 import { cookies } from "next/headers";
+import { MessageContextProvider } from "@/contexts/message-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +21,18 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthContextProvider token={await cookies().get('token')?.value} baseUrl={process.env.API_URL!}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </AuthContextProvider>
+        <MessageContextProvider>
+          <AuthContextProvider token={await cookies().get('token')?.value} baseUrl={process.env.API_URL!}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </AuthContextProvider>
+        </MessageContextProvider>
       </body>
     </html>
   );

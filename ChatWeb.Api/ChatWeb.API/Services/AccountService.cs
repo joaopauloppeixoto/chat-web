@@ -1,6 +1,7 @@
 ﻿using ChatWeb.API.Extensions;
 using ChatWeb.API.Interfaces;
 using ChatWeb.API.ViewModels;
+using ChatWeb.Common.CustomExceptions;
 using ChatWeb.Domain.AggregatesModel.AccountAggregate;
 using System.Security.Cryptography;
 
@@ -39,11 +40,23 @@ public class AccountService : IAccountService
         await _repository.RegisterAsync(account.ToDomainModel());
     }
 
-    public async Task<AccountViewModel> GetAccountInfoAsync(string email)
+    public async Task<AccountViewModel> GetAccountInfoAsync(string? email, Guid? guid)
     {
-        var account = await _repository.SearchByEmailAsync(email);
+        if (guid == null)
+        {
+            return (await _repository.SearchByEmailAsync(email)).ToViewModel();
+        }
+        else
+        {
+            var account = await _repository.GetAsync(guid);
+            
+            if (account == null)
+            {
+                throw new AccountNotFoundException();
+            }
 
-        return account.ToViewModel();
+            return account.ToViewModel();
+        }
     }
 
     public async Task UpdateLastLoginAsync(string email)

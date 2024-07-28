@@ -20,17 +20,17 @@ public class AccountController : ControllerBase
     [Authorize]
     public async Task<ActionResult> GetAccountInfoAsync()
     {
-        var email = User.GetUserEmail();
-        var account = await _service.GetAccountInfoAsync(email);
+        var guid = User.GetUserGuid();
+        var account = await _service.GetAccountInfoAsync(guid: guid);
 
         return Ok(account);
     }
 
-    [HttpGet("infoByEmail")]
+    [HttpGet("find")]
     [Authorize]
-    public async Task<ActionResult> GetAccountInfoByEmailAsync([FromHeader] string email)
+    public async Task<ActionResult> GetAccountInfoAsync([FromQuery] string? email, [FromQuery] string? guid)
     {
-        var account = await _service.GetAccountInfoAsync(email);
+        var account = await _service.GetAccountInfoAsync(email, guid != null ? Guid.Parse(guid) : null);
 
         return Ok(account);
     }

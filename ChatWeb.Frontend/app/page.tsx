@@ -17,7 +17,7 @@ export default async function Home() {
   return (
     <main className="flex h-[calc(100vh-56px)] flex-col items-center justify-between mx-7 my-7 bg-background rounded-lg shadow border">
       <div className="flex flex-row h-full w-full">
-        <Tabs defaultValue="chats" className="flex flex-col min-w-80">
+        <Tabs defaultValue="chats" className="flex flex-col">
           <div className="bg-secondary text-foreground px-2">
             <TabsList className="grid w-full grid-cols-2 h-16">
               <TabsTrigger value="chats">Chats</TabsTrigger>

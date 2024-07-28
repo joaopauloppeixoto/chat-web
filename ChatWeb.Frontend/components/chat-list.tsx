@@ -31,15 +31,15 @@ export default function ChatList() {
   return (
     chatList ?
       (
-        <>
+        <div className="w-[380px]">
           {chatList?.map((c) => <ChatItem chat={c} />)}
-        </>
+        </div>
       ) : (
-        <>
+        <div className="mx-3">
           <CardItemSkeleton />
           <CardItemSkeleton />
           <CardItemSkeleton />
-        </>
+        </div>
       )
   );
 }

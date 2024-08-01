@@ -35,7 +35,7 @@ export default function MessageList() {
   return (
     <ScrollArea className="h-full w-full px-2 pb-2 my-7">
       <div className="w-full max-w-7xl mx-auto flex flex-col">
-        <div className="mx-7">
+        <div className="mx-7 flex flex-col gap-1">
           {messageList?.map(m => {
             return <Message isFromUser={m.senderId == user?.id}>{m.content}</Message>
           })}

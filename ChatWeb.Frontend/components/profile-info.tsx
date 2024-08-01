@@ -18,7 +18,7 @@ type ProfileInfoProps = {
 
 export default function ProfileInfo({ }: ProfileInfoProps) {
   const { theme, setTheme } = useTheme();
-  const { user } = useAuth();
+  const { user, troggleProfile } = useAuth();
 
   return (
     <div className="p-2 h-20 flex flex-row">
@@ -42,7 +42,7 @@ export default function ProfileInfo({ }: ProfileInfoProps) {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={troggleProfile}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>

@@ -38,7 +38,8 @@ public class MessageRepository : IMessageRepository
     {
         var messages = await _context.Messages.Where(m =>
             m.GroupId == groupId
-        ).ToListAsync();
+        ).OrderBy(m => m.CreationDate)
+        .ToListAsync();
 
         return messages;
     }
@@ -66,7 +67,8 @@ public class MessageRepository : IMessageRepository
 
         if (group == null)
         {
-            var newGroup = new Group() {
+            var newGroup = new Group()
+            {
                 IsOneOnOne = true
             };
 

@@ -5,6 +5,7 @@ import "./globals.css";
 import { AuthContextProvider } from "@/contexts/auth-context";
 import { cookies } from "next/headers";
 import { MessageContextProvider } from "@/contexts/message-context";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
               disableTransitionOnChange
             >
               {children}
+              <Toaster />
             </ThemeProvider>
           </AuthContextProvider>
         </MessageContextProvider>

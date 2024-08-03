@@ -42,7 +42,7 @@ public class AccountService : IAccountService
 
     public async Task<AccountViewModel> GetAccountInfoAsync(string? email, Guid? guid)
     {
-        if (guid == null)
+        if (guid == null && email != null)
         {
             return (await _repository.SearchByEmailAsync(email)).ToViewModel();
         }

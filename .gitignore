@@ -396,6 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-ChatWeb/ChatWeb.API/appsettings.json
-ChatWeb/ChatWeb.Infrastructure/appsettings.json
-ChatWeb/ChatWeb.Infrastructure/appsettings.Development.json
+ChatWeb.Api/ChatWeb.API/appsettings.json

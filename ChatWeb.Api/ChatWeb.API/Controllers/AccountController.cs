@@ -42,4 +42,12 @@ public class AccountController : ControllerBase
 
         return StatusCode(201);
     }
+
+    [HttpPatch("rename")]
+    public async Task<ActionResult> ChangeNameAsync([FromBody] AccountNamesViewModel newAccount)
+    {
+        await _service.RenameAccountAsync(newAccount);
+
+        return StatusCode(201);
+    }
 }

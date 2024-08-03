@@ -13,4 +13,5 @@ public interface IAccountService
     public Task<Account> SearchByEmailAsync(string email);
     public Task UpdateLastLoginAsync(string email);
     public Task<Account> ValidateLoginAsync(CredentialsViewModel loginVM);
+    public Task RenameAccountAsync(AccountNamesViewModel newValues);
 }

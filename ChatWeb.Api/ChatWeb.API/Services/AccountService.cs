@@ -70,4 +70,9 @@ public class AccountService : IAccountService
 
         return await _repository.SearchByEmailAsync(credentials.Email);
     }
+
+    public async Task RenameAccountAsync(AccountNamesViewModel newValues)
+    {
+        await _repository.RenameAccountAsync(newValues.Id, newValues.Name, newValues.Surname);
+    }
 }

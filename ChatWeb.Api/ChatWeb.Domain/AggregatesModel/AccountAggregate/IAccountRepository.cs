@@ -10,4 +10,6 @@ public interface IAccountRepository
     public Task<Account> SearchByEmailAsync(string email);
     public Task UpdateLastLoginAsync(string email);
     public Task ValidateLoginAsync(string email, string password);
+    public Task RenameAccountAsync(Guid id, string name, string surname);
+    public Task UploadAccountImageAsync(Guid id, string file);
 }

@@ -42,7 +42,7 @@ public class AccountService : IAccountService
 
     public async Task<AccountViewModel> GetAccountInfoAsync(string? email, Guid? guid)
     {
-        if (guid == null)
+        if (guid == null && email != null)
         {
             return (await _repository.SearchByEmailAsync(email)).ToViewModel();
         }
@@ -69,5 +69,15 @@ public class AccountService : IAccountService
         await _repository.ValidateLoginAsync(credentials.Email, SHA512.Create().GenerateHash(credentials.Password));
 
         return await _repository.SearchByEmailAsync(credentials.Email);
+    }
+
+    public async Task RenameAccountAsync(Guid id, AccountNamesViewModel newValues)
+    {
+        await _repository.RenameAccountAsync(id, newValues.Name, newValues.Surname);
+    }
+
+    public async Task UploadAccountImageAsync(Guid id, UploadAccountImageViewModel newImage)
+    {
+        await _repository.UploadAccountImageAsync(id, newImage.File);
     }
 }

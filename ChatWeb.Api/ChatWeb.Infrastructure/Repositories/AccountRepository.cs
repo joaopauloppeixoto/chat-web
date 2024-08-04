@@ -67,4 +67,27 @@ public class AccountRepository : IAccountRepository
             throw new InvalidLoginOrPasswordException();
         }
     }
+
+    public async Task RenameAccountAsync(Guid id, string name, string surname)
+    {
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
+
+        if (account == null) throw new InvalidAccountException();
+
+        account.Name = name;
+        account.Surname = surname;
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task UploadAccountImageAsync(Guid id, string file)
+    {
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
+
+        if (account == null) throw new InvalidAccountException();
+
+        account.Image = file;
+
+        await _context.SaveChangesAsync();
+    }
 }

@@ -20,8 +20,8 @@ public class AccountController : ControllerBase
     [Authorize]
     public async Task<ActionResult> GetAccountInfoAsync()
     {
-        var guid = User.GetUserGuid();
-        var account = await _service.GetAccountInfoAsync(guid: guid);
+        var userId = User.GetUserGuid();
+        var account = await _service.GetAccountInfoAsync(guid: userId);
 
         return Ok(account);
     }
@@ -39,6 +39,24 @@ public class AccountController : ControllerBase
     public async Task<ActionResult> CreateAccountAsync([FromBody] NewAccountViewModel newAccount)
     {
         await _service.RegisterAsync(newAccount);
+
+        return StatusCode(201);
+    }
+
+    [HttpPatch("rename")]
+    public async Task<ActionResult> ChangeNameAsync([FromBody] AccountNamesViewModel newAccount)
+    {
+        var userId = User.GetUserGuid();
+        await _service.RenameAccountAsync(userId, newAccount);
+
+        return StatusCode(201);
+    }
+
+    [HttpPatch("image")]
+    public async Task<ActionResult> UploadAccountImageAsync([FromBody] UploadAccountImageViewModel newImage)
+    {
+        var userId = User.GetUserGuid();
+        await _service.UploadAccountImageAsync(userId, newImage);
 
         return StatusCode(201);
     }

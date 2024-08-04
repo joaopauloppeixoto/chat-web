@@ -8,4 +8,5 @@ public class AccountViewModel
     public string Surname { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime LastSeenAt { get; set; }
+    public string Image { get; set; }
 }

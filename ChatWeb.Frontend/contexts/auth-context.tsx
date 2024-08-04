@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { resizeBase64Img } from "@/lib/resize-base-64";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {
   Sheet,
@@ -22,6 +23,14 @@ import {
   useState,
 } from "react";
 import { useToast } from "@/components/ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type AuthContextProps = {
   children: ReactNode;
@@ -58,14 +67,56 @@ export const AuthContextProvider = ({
 }: AuthContextProps) => {
   const { toast } = useToast();
 
+  const [newProfilePicture, setNewProfilePicture] = useState<
+    string | undefined
+  >();
   const [user, setUser] = useState<User | undefined>();
   const [isProfileOpen, setIsProfileOpen] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
+    getValues,
     watch,
     formState: { errors },
   } = useForm<Inputs>();
+
+  useEffect(() => {
+    if (newProfilePicture) {
+      api
+        .patch(
+          `${baseUrl}/account/image`,
+          {
+            file: newProfilePicture,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          toast({
+            title: "Successfully updated.",
+            description: "Your account image was successfully updated.",
+          });
+
+          if (user) {
+            setUser({
+              ...user,
+              image: newProfilePicture,
+            });
+          }
+        })
+        .catch((error) => {
+          toast({
+            title: "Error",
+            description: `We couldn't update your account image.`,
+          });
+
+          console.error(error);
+        });
+    }
+  }, [newProfilePicture]);
 
   const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     if (data.name !== user?.name || data.surname !== user.surname) {
@@ -73,7 +124,6 @@ export const AuthContextProvider = ({
         .patch(
           `${baseUrl}/account/rename`,
           {
-            id: user?.id,
             name: data.name,
             surname: data.surname,
           },
@@ -96,6 +146,14 @@ export const AuthContextProvider = ({
               surname: data.surname,
             });
           }
+        })
+        .catch((error) => {
+          toast({
+            title: "Error",
+            description: `We couldn't update your name.`,
+          });
+
+          console.error(error);
         });
     }
   };
@@ -110,6 +168,14 @@ export const AuthContextProvider = ({
         })
         .then((result) => {
           setUser(result.data);
+        })
+        .catch((error) => {
+          toast({
+            title: "Error",
+            description: `We couldn't update your name.`,
+          });
+
+          console.error(error);
         });
     }
   }, []);
@@ -143,30 +209,70 @@ export const AuthContextProvider = ({
                   done.
                 </SheetDescription>
               </SheetHeader>
-              <div className="grid gap-4 my-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
+              {user && (
+                <div className="flex flex-col gap-4 my-4">
+                  <Separator />
+                  <Label
+                    htmlFor="photo-profile"
+                    className="text-right rounded-lg cursor-pointer flex flex-col gap-3"
+                  >
+                    <h2>Account image</h2>
+                    <p className="text-muted-foreground">
+                      Click to upload a new account image
+                    </p>
+                    <Avatar className="w-24 h-24 mx-auto">
+                      <AvatarImage
+                        src={newProfilePicture ? newProfilePicture : user.image}
+                      />
+                      <AvatarFallback>
+                        {user?.name.substring(0, 1).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                   </Label>
-                  <Input
-                    id="name"
-                    defaultValue={user?.name}
-                    {...register("name")}
-                    className="col-span-3"
+                  <input
+                    type="file"
+                    id="photo-profile"
+                    name="photo-profile"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={(e) => {
+                      let { files } = e.target;
+                      let reader = new FileReader();
+                      reader.onload = async (e: any) => {
+                        resizeBase64Img(e.target.result, 96, 96).then(
+                          (img: string) => {
+                            setNewProfilePicture(img);
+                          }
+                        );
+                      };
+
+                      if (files) reader.readAsDataURL(files[0]);
+                    }}
                   />
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Name
+                    </Label>
+                    <Input
+                      id="name"
+                      defaultValue={user?.name}
+                      {...register("name")}
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="surname" className="text-right">
+                      Surname
+                    </Label>
+                    <Input
+                      id="surname"
+                      defaultValue={user?.surname}
+                      {...register("surname")}
+                      className="col-span-3"
+                    />
+                  </div>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="surname" className="text-right">
-                    Surname
-                  </Label>
-                  <Input
-                    id="surname"
-                    defaultValue={user?.surname}
-                    {...register("surname")}
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
+              )}
               <SheetFooter>
                 <SheetClose asChild>
                   <Button type="submit">Save changes</Button>

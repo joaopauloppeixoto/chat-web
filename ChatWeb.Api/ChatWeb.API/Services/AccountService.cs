@@ -71,8 +71,13 @@ public class AccountService : IAccountService
         return await _repository.SearchByEmailAsync(credentials.Email);
     }
 
-    public async Task RenameAccountAsync(AccountNamesViewModel newValues)
+    public async Task RenameAccountAsync(Guid id, AccountNamesViewModel newValues)
     {
-        await _repository.RenameAccountAsync(newValues.Id, newValues.Name, newValues.Surname);
+        await _repository.RenameAccountAsync(id, newValues.Name, newValues.Surname);
+    }
+
+    public async Task UploadAccountImageAsync(Guid id, UploadAccountImageViewModel newImage)
+    {
+        await _repository.UploadAccountImageAsync(id, newImage.File);
     }
 }

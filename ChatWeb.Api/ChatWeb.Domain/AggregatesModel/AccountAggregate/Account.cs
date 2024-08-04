@@ -20,4 +20,6 @@ public class Account
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime LastSeenAt { get; set; } = DateTime.UtcNow;
+
+    public string? Image { get; set; }
 }

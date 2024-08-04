@@ -27,6 +27,8 @@ public static class ViewModelExtensions
             Surname = account.Surname,
             Email = account.Email,
             CreatedAt = account.CreatedAt,
+            LastSeenAt = account.LastSeenAt,
+            Image = account.Image
         };
     }
 

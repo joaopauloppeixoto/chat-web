@@ -79,4 +79,15 @@ public class AccountRepository : IAccountRepository
 
         await _context.SaveChangesAsync();
     }
+
+    public async Task UploadAccountImageAsync(Guid id, string file)
+    {
+        var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id == id);
+
+        if (account == null) throw new InvalidAccountException();
+
+        account.Image = file;
+
+        await _context.SaveChangesAsync();
+    }
 }

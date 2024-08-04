@@ -25,12 +25,6 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 type AuthContextProps = {
   children: ReactNode;
@@ -45,7 +39,7 @@ type AuthContextData = {
   troggleProfile: () => void;
 };
 
-type User = {
+export type User = {
   id: string;
   email: string;
   name: string;
@@ -225,7 +219,7 @@ export const AuthContextProvider = ({
                         src={newProfilePicture ? newProfilePicture : user.image}
                       />
                       <AvatarFallback>
-                        {user?.name.substring(0, 1).toUpperCase()}
+                        {user?.name && user?.name.substring(0, 1).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                   </Label>

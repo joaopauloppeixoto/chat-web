@@ -16,21 +16,30 @@ public class AccountController : ControllerBase
         _service = service;
     }
 
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult> GetAccountInfoByGuidAsync([FromQuery] string guid)
+    {
+        var account = await _service.GetAccountInfoAsync(null, Guid.Parse(guid));
+
+        return Ok(account);
+    }
+
     [HttpGet("info")]
     [Authorize]
     public async Task<ActionResult> GetAccountInfoAsync()
     {
         var userId = User.GetUserGuid();
-        var account = await _service.GetAccountInfoAsync(guid: userId);
+        var account = await _service.GetAccountInfoAsync(null, userId);
 
         return Ok(account);
     }
 
     [HttpGet("find")]
     [Authorize]
-    public async Task<ActionResult> GetAccountInfoAsync([FromQuery] string? email, [FromQuery] string? guid)
+    public async Task<ActionResult> GetAccountInfoAsync([FromQuery] string q)
     {
-        var account = await _service.GetAccountInfoAsync(email, guid != null ? Guid.Parse(guid) : null);
+        var account = await _service.GetAccountInfoAsync(q);
 
         return Ok(account);
     }

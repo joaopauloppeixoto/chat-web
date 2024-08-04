@@ -68,7 +68,11 @@ public class AccountService : IAccountService
     {
         await _repository.ValidateLoginAsync(credentials.Email, SHA512.Create().GenerateHash(credentials.Password));
 
-        return await _repository.SearchByEmailAsync(credentials.Email);
+        var user = await _repository.SearchByEmailAsync(credentials.Email);
+
+        if (user == null) throw new InvalidAccountException();
+
+        return user;
     }
 
     public async Task RenameAccountAsync(Guid id, AccountNamesViewModel newValues)
@@ -79,5 +83,10 @@ public class AccountService : IAccountService
     public async Task UploadAccountImageAsync(Guid id, UploadAccountImageViewModel newImage)
     {
         await _repository.UploadAccountImageAsync(id, newImage.File);
+    }
+
+    public async Task<IList<AccountViewModel>> GetAccountInfoAsync(string q)
+    {
+        return (await _repository.SearchAsync(q)).Select(a => a.ToViewModel()).ToList();
     }
 }

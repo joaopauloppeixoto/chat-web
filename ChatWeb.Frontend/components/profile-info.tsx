@@ -3,16 +3,13 @@
 import {
   EllipsisVertical,
   LogOut,
-  Mail,
-  MessageSquare,
+  MessagesSquareIcon,
   MonitorCog,
   Moon,
-  PlusCircle,
   Settings,
   Sun,
   SunMoon,
   User,
-  UserPlus,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useAuth } from "@/contexts/auth-context";
@@ -26,7 +23,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -34,12 +30,14 @@ import {
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { useSearch } from "@/contexts/search-context";
 
 type ProfileInfoProps = {};
 
 export default function ProfileInfo({}: ProfileInfoProps) {
   const { theme, setTheme } = useTheme();
   const { user, troggleProfile } = useAuth();
+  const { troggleSearch } = useSearch();
 
   return (
     <div className="h-20 flex flex-row">
@@ -51,7 +49,7 @@ export default function ProfileInfo({}: ProfileInfoProps) {
           <Avatar className="w-10 h-10">
             <AvatarImage src={`${user?.image}`} />
             <AvatarFallback className="border border-muted bg-primary text-primary-foreground">
-              {user?.name.charAt(0).toUpperCase()}
+              {user?.name && user?.name.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-1">
@@ -70,6 +68,15 @@ export default function ProfileInfo({}: ProfileInfoProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Chats</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem onClick={troggleSearch}>
+                <MessagesSquareIcon className="mr-2 h-4 w-4" />
+                <span>New chat</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>

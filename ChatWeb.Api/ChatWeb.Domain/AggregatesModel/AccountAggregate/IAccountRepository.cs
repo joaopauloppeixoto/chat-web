@@ -12,4 +12,5 @@ public interface IAccountRepository
     public Task ValidateLoginAsync(string email, string password);
     public Task RenameAccountAsync(Guid id, string name, string surname);
     public Task UploadAccountImageAsync(Guid id, string file);
+    public Task<IEnumerable<Account>> SearchAsync(string q);
 }

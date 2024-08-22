@@ -133,7 +133,7 @@ export const AuthContextProvider = ({
             description: "Your name and surname were successfully updated.",
           });
 
-          if (user) {
+          if (user && token) {
             setUser({
               ...user,
               name: data.name,
@@ -153,7 +153,7 @@ export const AuthContextProvider = ({
   };
 
   useEffect(() => {
-    if (!user) {
+    if (!user && token) {
       api
         .get(`${baseUrl}/account/info`, {
           headers: {
@@ -166,7 +166,7 @@ export const AuthContextProvider = ({
         .catch((error) => {
           toast({
             title: "Error",
-            description: `We couldn't update your name.`,
+            description: `We couldn't get your account info.`,
           });
 
           console.error(error);

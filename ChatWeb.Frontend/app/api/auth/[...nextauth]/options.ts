@@ -23,29 +23,29 @@ export const options: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
 
-        const res = await api.post(`${process.env.API_URL}/auth/login`,
-          {
-            email: credentials.email,
-            password: credentials.password
-          }
-        )
+        const res = await api.post(`${process.env.API_URL}/auth/login`, {
+          email: credentials.email,
+          password: credentials.password,
+        });
 
         const token = (await res).data.token;
-        api.defaults.headers.common['Authorization'] = token;
+        api.defaults.headers.common["Authorization"] = token;
 
-        const result = (await axios.get(process.env.API_URL + '/account/info', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })).data;
+        const result = (
+          await axios.get(process.env.API_URL + "/account/info", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+        ).data;
 
         const user: User = {
           id: result.id,
           name: `${result.name} ${result.surname}`,
-          email: result.email
-        }
+          email: result.email,
+        };
 
-        cookies().set('token', token);
+        cookies().set("token", token);
 
         return user;
       },
@@ -56,10 +56,15 @@ export const options: NextAuthOptions = {
       if (account?.provider != "credentials") {
         // See if the e-mail is registered
       } else {
-
       }
 
       return true;
     },
+  },
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+    error: "/auth/error",
+    newUser: "/auth/new-user",
   },
 };

@@ -1,0 +1,25 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: chatweb-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ChatWeb.2026
+      MYSQL_DATABASE: ChatWebDB
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+
+  api:
+    build:
+      context: ChatWeb.API
+      dockerfile: ChatWeb.API/Dockerfile
+    container_name: chatweb-api
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Port=3306;Database=ChatWebDB;User=root;Password=ChatWeb.2026;AllowPublicKeyRetrieval=True;SslMode=None
+      - AuthSettings__Key=cWbe6ux4tL7Bsnq6dlm4ve9v7KSPPTBWrKWcZTCJkpg=

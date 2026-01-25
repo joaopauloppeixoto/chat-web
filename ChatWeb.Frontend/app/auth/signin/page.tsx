@@ -47,15 +47,15 @@ const signup = ({ error }: signUpProps) => {
               required
             />
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row-reverse gap-2">
+            <Button type="submit" className="flex-1">
+              <input type="submit" className=" cursor-pointer" />
+            </Button>
             <Link href="new-user">
               <Button variant="outline" size="icon">
                 <UserPlus />
               </Button>
             </Link>
-            <Button type="submit" className="flex-1">
-              <input type="submit" className=" cursor-pointer" />
-            </Button>
           </div>
         </form>
         {error && (

@@ -23,7 +23,7 @@ export const options: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
 
-        const res = await api.post(`${process.env.API_URL}/auth/login`, {
+        const res = await api.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
           email: credentials.email,
           password: credentials.password,
         });
@@ -32,7 +32,7 @@ export const options: NextAuthOptions = {
         api.defaults.headers.common["Authorization"] = token;
 
         const result = (
-          await axios.get(process.env.API_URL + "/account/info", {
+          await axios.get(process.env.NEXT_PUBLIC_API_URL + "/account/info", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -45,7 +45,8 @@ export const options: NextAuthOptions = {
           email: result.email,
         };
 
-        cookies().set("token", token);
+        const cookieStore = await cookies();
+        cookieStore.set("token", token);
 
         return user;
       },

@@ -20,13 +20,19 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+
+  console.log("Base URL:");
+  console.log(process.env.NEXT_PUBLIC_API_URL);
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <MessageContextProvider>
           <AuthContextProvider
-            token={await cookies().get("token")?.value}
-            baseUrl={process.env.API_URL!}
+            token={token}
+            baseUrl={process.env.NEXT_PUBLIC_API_URL!}
           >
             <SearchContextProvider>
               <ThemeProvider

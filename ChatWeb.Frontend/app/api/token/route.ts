@@ -1,7 +1,8 @@
 import { cookies } from "next/headers";
 
 export async function DELETE(req: any) {
-  cookies().delete("token");
+  const cookieStore = await cookies();
+  cookieStore.delete("token");
 
   return Response.json({}, { status: 200 });
 }

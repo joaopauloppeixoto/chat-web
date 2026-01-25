@@ -4,6 +4,7 @@ services:
     container_name: chatweb-mysql
     restart: always
     environment:
+      # In a production environment, I would use Docker Secrets or Azure Key Vault to manage sensitive information instead of hardcoding them in the YAML file.
       MYSQL_ROOT_PASSWORD: ChatWeb.2026
       MYSQL_DATABASE: ChatWebDB
     ports:

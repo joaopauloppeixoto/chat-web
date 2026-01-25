@@ -4,8 +4,8 @@ using ChatWeb.API.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("ConnectionString") ?? builder.Configuration.GetConnectionString("Default");
-builder.Services.AddDbContext<ChatWebContext>(options => options.UseMySQL(connectionString));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ChatWebContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddProjectServices();
 builder.Services.AddControllers();
 builder.Services.RegisterCors();

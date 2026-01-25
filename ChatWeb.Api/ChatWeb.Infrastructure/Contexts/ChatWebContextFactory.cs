@@ -11,7 +11,8 @@ public class ChatWebContextFactory : IDesignTimeDbContextFactory<ChatWebContext>
         var optionsBuilder = new DbContextOptionsBuilder<ChatWebContext>();
         if (args.Length > 0)
         {
-            optionsBuilder.UseMySQL(args[0]);
+            optionsBuilder.UseMySql(args[0], ServerVersion.AutoDetect(args[0])
+);
 
             return new ChatWebContext(optionsBuilder.Options);
         }

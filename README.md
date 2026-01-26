@@ -14,9 +14,9 @@
 - **Security**: JWT Authentication with custom Middleware for Global Exception Handling.
 - **Containerization**: Docker & Docker Compose.
 
-### Frontend (Next.js)
+### Frontend (ReactJS)
 
-- **Framework**: Next.js 15+ (App Router).
+- **Framework**: ReactJS 19.
 - **Styling**: Tailwind CSS.
 - **UI Components**: shadcn/ui (Built on Radix UI primitives for maximum accessibility).
 - **BFF Pattern**: Server Actions for secure API orchestration and data transformation.
